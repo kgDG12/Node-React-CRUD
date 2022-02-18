@@ -33,7 +33,7 @@ export const add = (req, res) => {
     var data = req.body;
     var errors = Validate.add(data);
     if (!isEmpty(errors.errors)) {
-        console.log(errors);
+        // console.log(errors);
         res.status(400).send(errors);
     } else {
         ContactModel.add(data, (err, status) => {
