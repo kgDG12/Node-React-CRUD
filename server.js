@@ -3,7 +3,7 @@ import 'dotenv/config';
 import cors from 'cors';
 import bodyParser from "body-parser";
 import pool from "./database/connection.js";
-import route from "./routes/api.js";
+import ApiRoutes from "./routes/api.js";
 
 const Server = Express();
 const URL = process.env.APP_URL
@@ -28,7 +28,10 @@ pool.getConnection((err, conn) => {
     pool.releaseConnection(conn);
 })
 
-Server.use('/api', route);
+Server.use('/api', ApiRoutes);
+Server.use((err, res) => {
+    res.status(404).send('404 Not Found');
+});
 
 // process.on('uncaughtException', server.close())
 // process.on('SIGTERM', server.close())
