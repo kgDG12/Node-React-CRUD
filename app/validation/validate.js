@@ -4,7 +4,7 @@ var Validate = (data) => {}
 
 Validate.add = (data) => {
     var errors = {};
-    console.log(data);
+    // console.log(data);
 
     if (!data.name) {
         errors.name = 'Name is Required';

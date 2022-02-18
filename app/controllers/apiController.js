@@ -36,7 +36,13 @@ export const add = (req, res) => {
         console.log(errors);
         res.status(400).send(errors);
     } else {
-        res.status(200).send(data);
+        ContactModel.add(data, (err, status) => {
+            if (err) {
+                res.send(err);
+            } else {
+                res.status(200).send('Data Added');
+            }
+        })
     }
 }
 

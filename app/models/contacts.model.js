@@ -47,6 +47,7 @@ Contact.getAll = (result) => {
         }
     })
 }
+
 Contact.get = (id, result) => {
     if (id == 0) {
         var Qstr = `SELECT * FROM ${tableName}`;
@@ -66,8 +67,24 @@ Contact.get = (id, result) => {
         }
     })
 }
-Contact.add = (result) => {
 
+Contact.add = (data, result) => {
+    var name = data.name;
+    var email = data.email;
+    var phone = data.phone;
+    var Qstr = `INSERT INTO ${tableName} (name,email,phone) VALUES ('${name}','${email}',${phone})`;
+    pool.query(Qstr, (err, rows) => {
+        if (err) {
+            console.log('Error while getting Records ', err);
+            let Err = [{
+                status: false,
+                message: err.sqlMessage
+            }];
+            result(Err, null);
+        } else {
+            result(null, true);
+        }
+    })
 }
 
 // module.exports = Contact;
