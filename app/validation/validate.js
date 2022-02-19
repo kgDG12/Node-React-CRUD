@@ -2,7 +2,7 @@ import ContactModel from '../models/contacts.model.js';
 
 var Validate = (data) => {}
 
-Validate.add = (data) => {
+Validate.vali = (data) => {
     var errors = {};
     // console.log(data);
 

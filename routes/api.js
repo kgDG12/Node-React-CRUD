@@ -1,11 +1,6 @@
 import Server from "express";
 import bodyParser from "body-parser";
-import {
-    getAll,
-    get,
-    add,
-    notFound
-} from "../app/controllers/apiController.js";
+import apiController from "../app/controllers/apiController.js";
 
 const route = Server.Router();
 
@@ -16,10 +11,12 @@ route.use(bodyParser.urlencoded({
     extended: true
 }));
 
-route.get('/get', getAll);
-route.get('/get/:id', get);
-route.post('/add', add);
+route.get('/get', apiController.getAll);
+route.get('/get/:id', apiController.get);
+route.post('/add', apiController.add);
+route.put('/upd/:id', apiController.upd);
+route.delete('/del/:id', apiController.del);
 
-route.use(notFound);
+route.use(apiController.notFound);
 
 export default route;

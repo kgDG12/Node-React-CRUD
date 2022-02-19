@@ -5,7 +5,9 @@ const {
     isEmpty
 } = lodash;
 
-export const getAll = (req, res) => {
+var apiController = () => {}
+
+apiController.getAll = (req, res) => {
     ContactModel.getAll((err, contacts) => {
         if (err) {
             res.send(err);
@@ -15,7 +17,7 @@ export const getAll = (req, res) => {
         // console.log(contacts);
     })
 }
-export const get = (req, res) => {
+apiController.get = (req, res) => {
     // res.status(200).send('Here');
     var id = req.params.id;
     // console.log(req);
@@ -29,9 +31,9 @@ export const get = (req, res) => {
     })
 }
 
-export const add = (req, res) => {
+apiController.add = (req, res) => {
     var data = req.body;
-    var errors = Validate.add(data);
+    var errors = Validate.vali(data);
     if (!isEmpty(errors.errors)) {
         // console.log(errors);
         res.status(400).send(errors);
@@ -40,12 +42,72 @@ export const add = (req, res) => {
             if (err) {
                 res.send(err);
             } else {
-                res.status(200).send('Data Added');
+                if (status) {
+                    res.status(200).send([{
+                        status: true,
+                        message: 'Data Added'
+                    }]);
+                } else {
+                    res.status(400).send([{
+                        status: false,
+                        message: 'Data Add Failed'
+                    }]);
+                }
             }
         })
     }
 }
 
-export const notFound = (req, res) => {
+apiController.del = (req, res) => {
+    var id = req.params.id;
+    ContactModel.del(id, (err, status) => {
+        if (err) {
+            res.send(err);
+        } else {
+            if (status) {
+                res.status(200).send([{
+                    status: true,
+                    message: 'Data Deleted'
+                }]);
+            } else {
+                res.status(400).send([{
+                    status: false,
+                    message: 'Data Delete Failed'
+                }]);
+            }
+        }
+    })
+}
+
+apiController.upd = (req, res) => {
+    var id = req.params.id;
+    var data = req.body;
+    var errors = Validate.vali(data);
+    if (!isEmpty(errors.errors)) {
+        res.status(400).send(errors);
+    } else {
+        ContactModel.upd(id, data, (err, status) => {
+            if (err) {
+                res.send(err);
+            } else {
+                if (status) {
+                    res.status(200).send([{
+                        status: true,
+                        message: 'Data Updated'
+                    }]);
+                } else {
+                    res.status(400).send([{
+                        status: false,
+                        message: 'Data Update Failed'
+                    }]);
+                }
+            }
+        })
+    }
+}
+
+apiController.notFound = (req, res) => {
     res.status(404).send('404 Not Found');
 }
+
+export default apiController;
