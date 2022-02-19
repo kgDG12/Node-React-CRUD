@@ -4,17 +4,12 @@ import cors from 'cors';
 import bodyParser from "body-parser";
 import pool from "./database/connection.js";
 import ApiRoutes from "./routes/api.js";
+import WebRoutes from "./routes/web.js";
 
 const Server = Express();
 const URL = process.env.APP_URL
 const PORT = process.env.PORT || 8080;
 
-Server.use(bodyParser.json({
-    extended: true
-}));
-Server.use(bodyParser.urlencoded({
-    extended: true
-}));
 Server.use(cors());
 
 pool.getConnection((err, conn) => {
@@ -27,7 +22,7 @@ pool.getConnection((err, conn) => {
     }
     pool.releaseConnection(conn);
 })
-
+Server.use('/', WebRoutes);
 Server.use('/api', ApiRoutes);
 Server.use((err, res) => {
     res.status(404).send('404 Not Found');
