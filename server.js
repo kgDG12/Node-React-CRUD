@@ -1,9 +1,9 @@
-import Express from "express";
-import 'dotenv/config';
-import cors from 'cors';
-import pool from "./database/connection.js";
-import ApiRoutes from "./routes/api.js";
-import WebRoutes from "./routes/web.js";
+const Express = require("express");
+require('dotenv/config');
+const cors = require('cors');
+const pool = require("./database/connection.js");
+const ApiRoutes = require("./routes/api.js");
+const WebRoutes = require("./routes/web.js");
 
 const Server = Express();
 const URL = process.env.APP_URL
@@ -14,15 +14,15 @@ Server.use(cors());
 pool.getConnection((err, conn) => {
     if (conn) {
         Server.listen(PORT, () => {
-            console.log(`Server is running at ${URL}:${PORT}`);
+            console.log(`Server is running at ${URL}:${PORT}`)
         });
     } else {
-        console.log('Error : ' + err.message);
+        console.log('Error : ' + err.message)
     }
     pool.releaseConnection(conn);
 })
-Server.use('/', WebRoutes);
-Server.use('/api', ApiRoutes);
+Server.use('/', WebRoutes)
+Server.use('/api', ApiRoutes)
 Server.use((err, res) => {
     res.status(404).send('404 Not Found');
 });

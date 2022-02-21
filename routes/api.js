@@ -1,6 +1,6 @@
-import Server from "express";
-import bodyParser from "body-parser";
-import apiController from "../app/controllers/apiController.js";
+const Server = require("express");
+const bodyParser = require("body-parser");
+const apiController = require("../app/controllers/apiController.js");
 
 const route = Server.Router();
 
@@ -19,4 +19,4 @@ route.delete('/del/:id', apiController.del);
 
 route.use(apiController.notFound);
 
-export default route;
+module.exports = route;

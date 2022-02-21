@@ -1,6 +1,6 @@
-import ContactModel from '../models/contacts.model.js';
+// import ContactModel from '../models/contacts.model.js';
 
-var Validate = (data) => {}
+const Validate = (data) => {}
 
 Validate.vali = (data) => {
     var errors = {};
@@ -37,4 +37,4 @@ Validate.vali = (data) => {
     };
 }
 
-export default Validate;
+module.exports = Validate

@@ -1,4 +1,4 @@
-import pool from '../../database/connection.js';
+const pool = require('../../database/connection.js');
 const tableName = 'contact_db';
 const primaryKey = 'id';
 
@@ -122,5 +122,6 @@ Contact.upd = (id, data, result) => {
     })
 }
 
-// module.exports = Contact;
-export default Contact;
+module.exports = Contact
+// export default Contact;
+// return Contact;
