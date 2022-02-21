@@ -1,9 +1,7 @@
 const Server = require("express");
 const bodyParser = require("body-parser");
-const {
-    fileURLToPath
-} = require('url');
 const path = require("path");
+require('dotenv/config');
 
 const route = Server.Router();
 
@@ -16,6 +14,9 @@ route.use(bodyParser.urlencoded({
 
 route.use(Server.static(path.join(__dirname, '../public')))
 
+route.use((req, res) => {
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+})
 // route.get('/hello', (req, res) => {
 //     // res.sendFile(path.join(__dirname, '../public/index.html'));
 //     res.send('Hello there')

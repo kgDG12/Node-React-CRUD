@@ -1,22 +1,27 @@
-import React from "react";
-import ReactDOM from "react";
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet, Link } from "react-router-dom";
+import Index from "./layout/Index";
+import Home from "./pages/Home";
+import Example from "./test/Example";
 
-export default function Example() {    
+const url = window.location.href;
+
+export default function App() {
     return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <div className="card">
-                        <div className="card-header">Example Component</div>
-
-                        <div className="card-body">I'm an example component!</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <React.StrictMode>
+            <Router>
+                <Routes>
+                    <Route path={''} element={<Index />}>
+                        <Route path={''} element={<Home url={url} />} />
+                        <Route path={'example'} element={<Example />} />
+                    </Route>
+                </Routes>
+            </Router>
+        </React.StrictMode>
     );
 }
 
 if (document.getElementById('app')) {
-    ReactDOM.render(<Example />, document.getElementById('app'));
+    ReactDOM.render(<App />, document.getElementById('app'));
 }

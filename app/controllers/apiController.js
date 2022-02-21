@@ -13,6 +13,7 @@ apiController.getAll = (req, res) => {
             res.send(err);
         } else {
             res.status(200).send(contacts);
+            console.log("GET Contacts");
         }
         // console.log(contacts);
     })
@@ -26,6 +27,7 @@ apiController.get = (req, res) => {
             res.send(err);
         } else {
             res.status(200).send(contacts);
+            console.log("GET Contact " + id);
         }
         // console.log(contacts);
     })
@@ -47,6 +49,7 @@ apiController.add = (req, res) => {
                         status: true,
                         message: 'Data Added'
                     }]);
+                    console.log("POST Contact Added");
                 } else {
                     res.status(400).send([{
                         status: false,
@@ -65,15 +68,16 @@ apiController.del = (req, res) => {
             res.send(err);
         } else {
             if (status) {
-                res.status(200).send([{
+                res.status(200).send({
                     status: true,
                     message: 'Data Deleted'
-                }]);
+                });
+                console.log("DELETE Contact Deleted");
             } else {
-                res.status(400).send([{
+                res.status(400).send({
                     status: false,
                     message: 'Data Delete Failed'
-                }]);
+                });
             }
         }
     })
@@ -95,6 +99,7 @@ apiController.upd = (req, res) => {
                         status: true,
                         message: 'Data Updated'
                     }]);
+                    console.log("PUT Contact Updated");
                 } else {
                     res.status(400).send([{
                         status: false,
