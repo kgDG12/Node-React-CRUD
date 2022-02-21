@@ -1,7 +1,6 @@
 import Express from "express";
 import 'dotenv/config';
 import cors from 'cors';
-import bodyParser from "body-parser";
 import pool from "./database/connection.js";
 import ApiRoutes from "./routes/api.js";
 import WebRoutes from "./routes/web.js";
