@@ -1,13 +1,9 @@
-import Server from "express";
-import bodyParser from "body-parser";
-import { fileURLToPath } from 'url';
-import path, {
-    dirname
-} from "path";
-
-const __filename = fileURLToPath(
-    import.meta.url);
-const __dirname = dirname(__filename);
+const Server = require("express");
+const bodyParser = require("body-parser");
+const {
+    fileURLToPath
+} = require('url');
+const path = require("path");
 
 const route = Server.Router();
 
@@ -28,4 +24,4 @@ route.use(Server.static(path.join(__dirname, '../public')))
 //     res.send('This is Home');
 // })
 
-export default route;
+module.exports = route

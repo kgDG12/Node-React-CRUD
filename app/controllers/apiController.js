@@ -1,11 +1,11 @@
-import ContactModel from '../models/contacts.model.js';
-import Validate from '../validation/validate.js';
-import lodash from "lodash";
+const ContactModel = require('../models/contacts.model.js');
+const Validate = require('../validation/validate.js');
+const lodash = require("lodash");
 const {
     isEmpty
 } = lodash;
 
-var apiController = () => {}
+const apiController = () => {}
 
 apiController.getAll = (req, res) => {
     ContactModel.getAll((err, contacts) => {
@@ -110,4 +110,6 @@ apiController.notFound = (req, res) => {
     res.status(404).send('404 Not Found');
 }
 
-export default apiController;
+module.exports = apiController
+// return apiController;
+// export default apiController;

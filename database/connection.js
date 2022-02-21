@@ -1,5 +1,5 @@
-import DB from 'mysql2';
-import 'dotenv/config';
+const DB = require('mysql2');
+require('dotenv/config');
 
 const HOST = process.env.DB_HOST;
 const PORT = process.env.DB_PORT;
@@ -18,4 +18,5 @@ const pool = DB.createPool({
     queueLimit: 0
 });
 
-export default pool;
+// return pool;
+module.exports = pool
