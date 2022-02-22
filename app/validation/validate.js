@@ -7,7 +7,7 @@ Validate.vali = (data) => {
     // console.log(data);
 
     if (!data.name) {
-        errors.name = 'Name is Required';
+        errors.name = 'Name is required';
     } else if (data.name.length < 3) {
         errors.name = 'Name should be bigger than 3 chars'
     }
