@@ -1,6 +1,14 @@
 import React from 'react'
 
-export default function ConList({ contacts, delClick, ...props }) {
+export default function ConList({ contacts, SetFormUpd, SetFormVals, delClick, ...props }) {
+    const EditHandle = (item) => {
+        SetFormUpd.SetFormUpd(true)
+        SetFormUpd.ShowForm(true)
+        SetFormVals.SetIdVal(item.id)
+        SetFormVals.SetNameVal(item.name)
+        SetFormVals.SetEmailVal(item.email)
+        SetFormVals.SetPhoneVal(item.phone)
+    }
     return (
         <div className="container">
             <div className="container-fluid">
@@ -24,7 +32,7 @@ export default function ConList({ contacts, delClick, ...props }) {
                                                 </h6>
                                             </div>
                                             <div className="col-4">
-                                                <button className='btn btn-sm btn-success me-2'>Edit</button>
+                                                <button onClick={() => EditHandle(item)} className='btn btn-sm btn-success me-2'>Edit</button>
                                                 <button onClick={() => delClick(item.id, item.name)} className='btn btn-sm btn-danger'>Delete</button>
                                             </div>
                                         </div>

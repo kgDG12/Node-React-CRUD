@@ -38,23 +38,23 @@ apiController.add = (req, res) => {
     var errors = Validate.vali(data);
     if (!isEmpty(errors.errors)) {
         // console.log(errors);
-        res.status(400).send(errors);
+        res.send(errors);
     } else {
         ContactModel.add(data, (err, status) => {
             if (err) {
                 res.send(err);
             } else {
                 if (status) {
-                    res.status(200).send([{
+                    res.status(200).send({
                         status: true,
                         message: 'Data Added'
-                    }]);
+                    });
                     console.log("POST Contact Added");
                 } else {
-                    res.status(400).send([{
+                    res.send({
                         status: false,
                         message: 'Data Add Failed'
-                    }]);
+                    });
                 }
             }
         })
@@ -74,7 +74,7 @@ apiController.del = (req, res) => {
                 });
                 console.log("DELETE Contact Deleted");
             } else {
-                res.status(400).send({
+                res.send({
                     status: false,
                     message: 'Data Delete Failed'
                 });
@@ -88,27 +88,39 @@ apiController.upd = (req, res) => {
     var data = req.body;
     var errors = Validate.vali(data);
     if (!isEmpty(errors.errors)) {
-        res.status(400).send(errors);
+        res.send(errors);
     } else {
         ContactModel.upd(id, data, (err, status) => {
             if (err) {
                 res.send(err);
             } else {
                 if (status) {
-                    res.status(200).send([{
+                    res.status(200).send({
                         status: true,
                         message: 'Data Updated'
-                    }]);
+                    });
                     console.log("PUT Contact Updated");
                 } else {
-                    res.status(400).send([{
+                    res.send({
                         status: false,
                         message: 'Data Update Failed'
-                    }]);
+                    });
                 }
             }
         })
     }
+}
+
+apiController.search = (req, res) => {
+    var str = req.params.str;
+    ContactModel.search(str, (err, contacts) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.status(200).send(contacts);
+            console.log("GET Searched Contacts");
+        }
+    })
 }
 
 apiController.notFound = (req, res) => {

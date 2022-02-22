@@ -17,7 +17,7 @@ Validate.vali = (data) => {
         errors.email = 'Email is required';
     } else if (!Etest.test(data.email)) {
         errors.email = 'Enter Valid Email';
-    } 
+    }
     // else {
     //     console.log(ContactModel.uniqEmail(data.email, (err, rows) => {
 
@@ -33,7 +33,9 @@ Validate.vali = (data) => {
     }
     // console.log(errors);
     return {
-        errors: errors
+        status: false,
+        errors: errors,
+        message: 'Please Correct Data'
     };
 }
 

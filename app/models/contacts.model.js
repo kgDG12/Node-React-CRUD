@@ -1,3 +1,6 @@
+const {
+    result
+} = require('lodash');
 const pool = require('../../database/connection.js');
 const tableName = 'contact_db';
 const primaryKey = 'id';
@@ -37,10 +40,10 @@ Contact.getAll = (result) => {
     pool.query(Qstr, (err, rows) => {
         if (err) {
             console.log('Error while getting Records ', err);
-            let Err = [{
+            let Err = {
                 status: false,
                 message: err.sqlMessage
-            }];
+            };
             result(Err, null);
         } else {
             result(null, rows);
@@ -57,10 +60,10 @@ Contact.get = (id, result) => {
     pool.query(Qstr, (err, rows) => {
         if (err) {
             console.log('Error while getting Records ', err);
-            let Err = [{
+            let Err = {
                 status: false,
                 message: err.sqlMessage
-            }];
+            };
             result(Err, null);
         } else {
             result(null, rows);
@@ -76,10 +79,10 @@ Contact.add = (data, result) => {
     pool.query(Qstr, (err, rows) => {
         if (err) {
             console.log('Error while getting Records ', err);
-            let Err = [{
+            let Err = {
                 status: false,
                 message: err.sqlMessage
-            }];
+            };
             result(Err, null);
         } else {
             result(null, true);
@@ -92,10 +95,10 @@ Contact.del = (id, result) => {
     pool.query(Qstr, (err, rows) => {
         if (err) {
             console.log('Error while getting Records ', err);
-            let Err = [{
+            let Err = {
                 status: false,
                 message: err.sqlMessage
-            }];
+            };
             result(Err, null);
         } else {
             result(null, true);
@@ -111,13 +114,29 @@ Contact.upd = (id, data, result) => {
     pool.query(Qstr, (err, rows) => {
         if (err) {
             console.log('Error while getting Records ', err);
-            let Err = [{
+            let Err = {
                 status: false,
                 message: err.sqlMessage
-            }];
+            };
             result(Err, null);
         } else {
             result(null, true);
+        }
+    })
+}
+
+Contact.search = (str, result) => {
+    var Qstr = `SELECT * FROM ${tableName} WHERE name LIKE '%${str}%' OR email LIKE '%${str}%' OR phone LIKE '%${str}%' ORDER BY ${primaryKey} DESC`;
+    pool.query(Qstr, (err, rows) => {
+        if (err) {
+            console.log('Error while getting Records ', err);
+            let Err = {
+                status: false,
+                message: err.sqlMessage
+            };
+            result(Err, null);
+        } else {
+            result(null, rows);
         }
     })
 }

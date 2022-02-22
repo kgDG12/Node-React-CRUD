@@ -1,30 +1,93 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ConList from '../parts/ConList';
 import Form from '../parts/Form';
 
 export default function Home({ url, ...props }) {
     const [contacts, setContacts] = useState([])
     const [showform, ShowForm] = useState(false)
-    const [formVals, SetFormVals] = useState({ name: '', email: '', phone: '' })
+    const [idVal, SetIdVal] = useState('')
+    const [nameVal, SetNameVal] = useState('')
+    const [emailVal, SetEmailVal] = useState('')
+    const [phoneVal, SetPhoneVal] = useState('')
+    const [formErrs, SetFormErrs] = useState({})
+    const [formUpd, SetFormUpd] = useState(false)
+    const [searchStr, SetSearchStr] = useState('')
 
     useEffect(() => {
         document.title = "Home";
         fetchContacts();
-    }, []);
+    }, [searchStr]);
 
     const showFormClick = () => {
         ShowForm(!showform)
     }
 
     const fetchContacts = async () => {
-        await axios
-            .get(`${url}api/get`)
-            .then(res => {
-                // console.log(res)
-                setContacts(res.data)
-            })
-            .catch(err => console.log(err))
+        if (searchStr != '') {
+            axios
+                .get(`${url}api/search/${searchStr}`)
+                .then(res => {
+                    // console.log(res)
+                    setContacts(res.data)
+                })
+                .catch(err => console.log(err))
+        } else {
+            axios
+                .get(`${url}api/get`)
+                .then(res => {
+                    // console.log(res)
+                    setContacts(res.data)
+                })
+                .catch(err => console.log(err))
+        }
+    }
+
+    const formSub = () => {
+        var data = {
+            name: nameVal,
+            email: emailVal,
+            phone: phoneVal
+        }
+        if (idVal != '') {
+            axios
+                .put(`${url}api/upd/${idVal}`, data)
+                .then(res => {
+                    if (res.data.status) {
+                        fetchContacts()
+                        alert(res.data.message)
+                        SetNameVal('')
+                        SetEmailVal('')
+                        SetPhoneVal('')
+                        SetIdVal('')
+                        SetFormErrs({})
+                        SetFormUpd(false)
+                    } else {
+                        SetFormErrs(res.data.errors)
+                        alert(res.data.message)
+                    }
+                })
+                .catch(err => console.log(err))
+
+        } else {
+            axios
+                .post(`${url}api/add`, data)
+                .then(res => {
+                    if (res.data.status) {
+                        fetchContacts()
+                        alert(res.data.message)
+                        SetNameVal('')
+                        SetEmailVal('')
+                        SetPhoneVal('')
+                        SetIdVal('')
+                        SetFormErrs({})
+                    } else {
+                        SetFormErrs(res.data.errors)
+                        alert(res.data.message)
+                    }
+                })
+                .catch(err => console.log(err))
+        }
     }
 
     const delClick = (id, name) => {
@@ -46,9 +109,20 @@ export default function Home({ url, ...props }) {
 
     return (
         <div className="container mt-4">
-            <Form showFormClick={showFormClick} showform={showform} formVals={formVals} SetFormVals={SetFormVals} />
+            <Form
+                showFormClick={showFormClick}
+                showform={showform} formSub={formSub}
+                formVals={{ nameVal, emailVal, phoneVal }}
+                SetFormVals={{ SetNameVal, SetEmailVal, SetPhoneVal, SetIdVal, SetFormErrs, SetFormUpd }}
+                formErrs={formErrs}
+                formUpd={formUpd}
+                SetSearchStr={SetSearchStr} />
 
-            <ConList contacts={contacts} delClick={delClick} />
+            <ConList
+                contacts={contacts}
+                SetFormUpd={{ SetFormUpd, ShowForm }}
+                SetFormVals={{ SetIdVal, SetNameVal, SetEmailVal, SetPhoneVal }}
+                delClick={delClick} />
         </div>
     );
 }

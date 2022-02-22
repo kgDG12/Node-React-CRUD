@@ -16,6 +16,7 @@ route.get('/get/:id', apiController.get);
 route.post('/add', apiController.add);
 route.put('/upd/:id', apiController.upd);
 route.delete('/del/:id', apiController.del);
+route.get('/search/:str', apiController.search);
 
 route.use(apiController.notFound);
 
