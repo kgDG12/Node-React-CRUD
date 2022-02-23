@@ -1,7 +1,6 @@
 const Express = require("express");
 require('dotenv/config');
 const cors = require('cors');
-const path = require("path");
 const pool = require("./database/connection.js");
 const ApiRoutes = require("./routes/api.js");
 const WebRoutes = require("./routes/web.js");

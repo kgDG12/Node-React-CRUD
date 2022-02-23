@@ -1,6 +1,3 @@
-const {
-    result
-} = require('lodash');
 const pool = require('../../database/connection.js');
 const tableName = 'contact_db';
 const primaryKey = 'id';
